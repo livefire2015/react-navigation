@@ -103,6 +103,7 @@ class TabView extends React.PureComponent {
       tabBarOptions,
       tabBarComponent: TabBarComponent,
       animationEnabled,
+      onPressPlus
     } = this.props;
     if (typeof TabBarComponent === 'undefined') {
       return null;
@@ -120,6 +121,7 @@ class TabView extends React.PureComponent {
         getOnPress={this._getOnPress}
         renderIcon={this._renderIcon}
         animationEnabled={animationEnabled}
+        onPressPlus={onPressPlus}
       />
     );
   };
