@@ -6,6 +6,10 @@ import {
   View,
   Platform,
   Keyboard,
+  Image,
+  ImageBackground,
+  Dimensions,
+  TouchableOpacity
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 
@@ -215,6 +219,7 @@ class TabBarBottom extends React.PureComponent {
       animateStyle,
       tabStyle,
       isLandscape,
+      onPressPlus
     } = this.props;
     const { routes } = navigation.state;
     const previousScene = routes[navigation.state.index];
@@ -230,7 +235,8 @@ class TabBarBottom extends React.PureComponent {
     ];
 
     return (
-      <Animated.View style={animateStyle}>
+      <View style={{backgroundColor: 'transparent', height: styles.tabBar.height + 20 }}>
+       <ImageBackground source = {{uri: 'TabBackground'}} style = {{width: Dimensions.get('window').width, height: styles.tabBar.height  }} >
         <SafeAreaView
           style={tabBarStyle}
           forceInset={{ bottom: 'always', top: 'never' }}
@@ -288,7 +294,19 @@ class TabBarBottom extends React.PureComponent {
             );
           })}
         </SafeAreaView>
-      </Animated.View>
+       </ImageBackground>
+       <View style={styles.tabPlus} >
+        <TouchableOpacity style={{padding: 10}} onPress={() => {
+          jumpToIndex(routes.length - 1);
+
+          if(onPressPlus && typeof onPressPlus === 'function') {
+            onPressPlus();
+          }
+        } } >
+          <Image source={{uri: 'AddSomething'}} style={{width: 50, height: 50}} />
+        </TouchableOpacity>
+      </View>
+     </View>
     );
   }
 }
@@ -298,10 +316,16 @@ const COMPACT_HEIGHT = 29;
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#F7F7F7', // Default background color in iOS 10
+    height: Dimensions.get('window').height * .09, // Default tab bar height in iOS 10
+    backgroundColor: 'transparent', // Default background color in iOS 10
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(0, 0, 0, .3)',
+    borderTopColor: 'rgba(0, 0, 0, .2)',
     flexDirection: 'row',
+  },
+  tabPlus: {
+    position: 'absolute',
+    bottom: Dimensions.get('window').height > 700 ? Dimensions.get('window').height * 0.05 : Dimensions.get('window').height * 0.02,
+    left: (Dimensions.get('window').width - 60) / 2
   },
   tabBarCompact: {
     height: COMPACT_HEIGHT,
