@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
   },
   tabPlus: {
     position: 'absolute',
-    top: -30,
+    top: isIos ? -30:-10,
     left: (Dimensions.get('window').width - 60) / 2
   },
   tabBarCompact: {
